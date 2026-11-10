@@ -1,0 +1,299 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Служба заказа эвакуатора</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Russo+One&display=swap">
+<style>
+/* Layout: dark asphalt hero with the phone number as the main element, then plain concrete-grey sections.
+   One bold device: a moving road-marking line under the hero. */
+:root {
+  --bg: #e3e5e4;
+  --surface: #f1f2f1;
+  --fg: #15181b;
+  --muted: #4a5254;
+  --line: #b4bbbb;
+  --signal: #ffbf00;
+  --on-signal: #15181b;
+  --asphalt: #181b1e;
+  --on-asphalt: #eceeed;
+  --asphalt-muted: #a3abad;
+  --font-display: "Russo One", "Arial Black", Impact, sans-serif;
+  --font-body: "Golos Text", "Segoe UI", Roboto, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111315;
+    --surface: #1a1d20;
+    --fg: #eceeed;
+    --muted: #9ba3a5;
+    --line: #33393c;
+    --asphalt: #0a0b0c;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111315;
+  --surface: #1a1d20;
+  --fg: #eceeed;
+  --muted: #9ba3a5;
+  --line: #33393c;
+  --asphalt: #0a0b0c;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--signal); outline-offset: 3px; }
+
+.wrap {
+  width: 100%;
+  max-width: 68rem;
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* Hero */
+.band-dark { background: var(--asphalt); color: var(--on-asphalt); }
+.topbar { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; align-items: center; justify-content: space-between; padding-block: 1.1rem; }
+.brand { font-family: var(--font-display); font-size: 1.05rem; letter-spacing: 0.01em; }
+.topbar .top-phone { color: var(--asphalt-muted); text-decoration: none; font-variant-numeric: tabular-nums; }
+.topbar .top-phone:hover { color: var(--signal); }
+
+.hero { padding-block: clamp(2rem, 6vw, 4.5rem) clamp(2.5rem, 6vw, 4.5rem); display: grid; gap: 1.75rem; }
+.hero h1 { font-size: clamp(2.3rem, 7.2vw, 4.9rem); line-height: 1.04; max-width: 14em; }
+.hero .lead { max-width: 34rem; color: var(--asphalt-muted); font-size: 1.15rem; }
+.phone {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 8.4vw, 4.6rem);
+  line-height: 1.05;
+  color: var(--signal);
+  text-decoration: none;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.phone:hover { text-decoration: underline; text-underline-offset: 0.12em; text-decoration-thickness: 0.06em; }
+.actions { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 3rem; padding: 0.55rem 1.3rem;
+  border-radius: 4px; border: 2px solid transparent;
+  font: 600 1rem/1.2 var(--font-body);
+  text-decoration: none; cursor: pointer;
+}
+.btn-main { background: var(--signal); color: var(--on-signal); }
+.btn-main:hover { filter: brightness(1.07); }
+.btn-ghost { background: transparent; color: var(--on-asphalt); border-color: #4a5156; }
+.btn-ghost:hover { border-color: var(--signal); color: var(--signal); }
+.hero-facts { display: flex; flex-wrap: wrap; gap: 0.35rem 2rem; color: var(--asphalt-muted); font-size: 0.98rem; }
+.hero-facts strong { color: var(--on-asphalt); font-weight: 500; }
+.copied { min-height: 1.4em; font-size: 0.95rem; color: var(--signal); }
+
+.road { height: 10px; background-color: var(--asphalt);
+  background-image: repeating-linear-gradient(90deg, var(--signal) 0 56px, transparent 56px 112px);
+  background-size: 112px 100%;
+  animation: road 3.2s linear infinite; }
+@keyframes road { to { background-position: -112px 0; } }
+
+/* Sections */
+section.block { padding-block: clamp(2.5rem, 6vw, 4.5rem); }
+section.block + section.block { border-top: 1px solid var(--line); }
+.block h2 { font-size: clamp(1.7rem, 4.4vw, 2.6rem); line-height: 1.1; margin-bottom: 1.75rem; }
+
+.cases { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--fg); }
+.cases li { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: 0.4rem 2rem; padding-block: 1.1rem; border-bottom: 1px solid var(--line); }
+.cases h3 { font-size: 1.25rem; }
+.cases p { color: var(--muted); max-width: 40rem; }
+
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; counter-reset: step; }
+.steps li { counter-increment: step; display: grid; gap: 0.5rem; align-content: start; }
+.steps li::before {
+  content: counter(step);
+  display: grid; place-items: center;
+  width: 2.6rem; height: 2.6rem; border-radius: 50%;
+  background: var(--signal); color: var(--on-signal);
+  font-family: var(--font-display); font-size: 1.15rem;
+}
+.steps h3 { font-size: 1.2rem; }
+.steps p { color: var(--muted); }
+.say { margin-top: 2.25rem; padding: 1.25rem 1.5rem; background: var(--surface); border-left: 4px solid var(--signal); border-radius: 0 4px 4px 0; max-width: 40rem; }
+.say h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+.say ul { margin: 0; padding-left: 1.2rem; color: var(--muted); }
+
+.contact { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 2.5rem; align-items: start; }
+.contact dl { margin: 0; display: grid; gap: 1rem; }
+.contact dt { color: var(--muted); font-size: 0.92rem; }
+.contact dd { margin: 0; font-size: 1.2rem; font-weight: 500; }
+.contact dd .num { font-family: var(--font-display); font-weight: 400; font-variant-numeric: tabular-nums; text-decoration: none; }
+.contact .side { display: grid; gap: 0.85rem; justify-items: start; }
+.contact .side p { color: var(--muted); }
+.contact .btn-ghost { color: var(--fg); border-color: var(--line); }
+.contact .btn-ghost:hover { border-color: var(--fg); color: var(--fg); }
+
+footer { background: var(--asphalt); color: var(--asphalt-muted); padding-block: 1.75rem; font-size: 0.95rem; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 0.4rem 2rem; justify-content: space-between; }
+footer strong { color: var(--on-asphalt); font-family: var(--font-display); font-weight: 400; }
+
+.callbar { display: none; }
+
+@media (max-width: 760px) {
+  .cases li { grid-template-columns: minmax(0, 1fr); }
+  .steps { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  .contact { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+  body { padding-bottom: calc(4.2rem + env(safe-area-inset-bottom, 0px)); }
+  .callbar {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+    padding: 0.7rem max(16px, env(safe-area-inset-right, 0px)) calc(0.7rem + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+    background: var(--signal); color: var(--on-signal); text-decoration: none;
+    font-family: var(--font-display);
+  }
+  .callbar span:last-child { font-variant-numeric: tabular-nums; }
+}
+@media (prefers-reduced-motion: reduce) { .road { animation: none; } }
+</style>
+
+<header class="band-dark">
+  <div class="wrap topbar">
+    <div class="brand">Служба заказа эвакуатора</div>
+    <a class="top-phone" href="tel:+79061520173">+7 906 152-01-73</a>
+  </div>
+
+  <div class="wrap hero">
+    <h1>Эвакуатор в Энгельсе. Круглосуточно.</h1>
+    <p class="lead">Попали в ДТП, машина не заводится или вы застряли на дороге. Позвоните, назовите адрес, и мы приедем за автомобилем.</p>
+    <a class="phone" id="phone" href="tel:+79061520173">+7 906 152-01-73</a>
+    <div class="actions">
+      <a class="btn btn-main" href="https://wa.me/79061520173" target="_blank" rel="noopener">Написать в WhatsApp</a>
+      <button class="btn btn-ghost" id="copy" type="button">Скопировать номер</button>
+    </div>
+    <p class="copied" id="copied" role="status" aria-live="polite"></p>
+    <div class="hero-facts">
+      <span><strong>Работаем</strong> круглосуточно</span>
+      <span><strong>База</strong> Степная улица, 98, Энгельс</span>
+    </div>
+  </div>
+  <div class="road" aria-hidden="true"></div>
+</header>
+
+<main>
+  <section class="block">
+    <div class="wrap">
+      <h2>Когда нужен эвакуатор</h2>
+      <ul class="cases">
+        <li>
+          <h3>После аварии</h3>
+          <p>Машина не может ехать сама. Заберём её с места ДТП и отвезём туда, куда скажете.</p>
+        </li>
+        <li>
+          <h3>Не заводится</h3>
+          <p>Сел аккумулятор, отказал стартер или машина заглохла посреди дороги.</p>
+        </li>
+        <li>
+          <h3>Съехали или застряли</h3>
+          <p>Кювет, снег, грязь. Опишите место и состояние машины, и мы подберём способ погрузки.</p>
+        </li>
+        <li>
+          <h3>Нужно перевезти авто</h3>
+          <p>В сервис, на стоянку, домой или в соседний город.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <h2>Как заказать</h2>
+      <ol class="steps">
+        <li>
+          <h3>Позвоните или напишите</h3>
+          <p>Номер один и тот же для звонка и WhatsApp. Отвечаем в любое время суток.</p>
+        </li>
+        <li>
+          <h3>Расскажите, что случилось</h3>
+          <p>Назовите, где вы находитесь, и опишите проблему. Это нужно, чтобы выехать с подходящим оборудованием.</p>
+        </li>
+        <li>
+          <h3>Узнайте время и стоимость</h3>
+          <p>Цена зависит от расстояния и состояния автомобиля, поэтому её называют по телефону.</p>
+        </li>
+      </ol>
+      <div class="say">
+        <h3>Что назвать диспетчеру</h3>
+        <ul>
+          <li>адрес или ближайший ориентир;</li>
+          <li>марку и модель автомобиля;</li>
+          <li>что случилось и крутятся ли колёса;</li>
+          <li>куда нужно отвезти машину.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap contact">
+      <div>
+        <h2>Контакты</h2>
+        <dl>
+          <div><dt>Телефон и WhatsApp</dt><dd><a class="num" href="tel:+79061520173">+7 906 152-01-73</a></dd></div>
+          <div><dt>Адрес</dt><dd>Степная улица, 98, Энгельс, Саратовская область, 413118</dd></div>
+          <div><dt>Время работы</dt><dd>Круглосуточно</dd></div>
+        </dl>
+      </div>
+      <div class="side">
+        <a class="btn btn-main" href="https://2gis.ru/engels/firm/70000001039775936" target="_blank" rel="noopener">Открыть в 2ГИС</a>
+        <p>В 2ГИС можно построить маршрут и посмотреть вход.</p>
+        <p>Оценка в 2ГИС: 5 из 5, пока одна оценка.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <strong>Служба заказа эвакуатора</strong>
+    <span>Степная улица, 98, Энгельс. Круглосуточно.</span>
+  </div>
+</footer>
+
+<a class="callbar" href="tel:+79061520173">
+  <span>Позвонить</span>
+  <span>+7 906 152-01-73</span>
+</a>
+
+<script>
+(function () {
+  var btn = document.getElementById("copy");
+  var out = document.getElementById("copied");
+  var phone = document.getElementById("phone");
+  var number = "+7 906 152-01-73";
+  function done(text) { out.textContent = text; setTimeout(function () { out.textContent = ""; }, 3000); }
+  function fallback() {
+    try {
+      var r = document.createRange();
+      r.selectNodeContents(phone);
+      var s = window.getSelection();
+      s.removeAllRanges();
+      s.addRange(r);
+      done("Номер выделен, скопируйте его вручную.");
+    } catch (e) { done("Не удалось скопировать, выделите номер вручную."); }
+  }
+  btn.addEventListener("click", function () {
+    try {
+      navigator.clipboard.writeText(number).then(function () { done("Номер скопирован."); }, fallback);
+    } catch (e) { fallback(); }
+  });
+})();
+</script>
+
+</body></html>
